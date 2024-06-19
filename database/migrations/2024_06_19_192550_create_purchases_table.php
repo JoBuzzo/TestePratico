@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
-            $table->string('method_payment');
             $table->date('date');
             $table->float('total');
             $table->foreignId('client_id')->constrained();

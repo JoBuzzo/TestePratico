@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PurchaseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +27,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+    Route::get('/compra/cadastrar', [PurchaseController::class, 'create'])->name('purchase.create');
+    Route::post('/compra/cadastrar', [PurchaseController::class, 'store'])->name('purchase.store');
+
+    Route::get('/compra/{purchase}', [PurchaseController::class, 'show'])->name('purchase.show');
 });
+
 
 require __DIR__.'/auth.php';
