@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Purchase extends Model
 {
@@ -35,5 +36,15 @@ class Purchase extends Model
     {
         return $this->belongsToMany(Product::class, 'items', 'purchase_id', 'product_id')
             ->withPivot('quantity', 'price');
+    }
+
+    /**
+     * Get all of the parcels for the Purchase
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function parcels(): HasMany
+    {
+        return $this->hasMany(Parcel::class, 'purchase_id');
     }
 }

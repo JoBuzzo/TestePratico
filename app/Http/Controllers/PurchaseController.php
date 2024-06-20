@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Parcel;
 use App\Models\Product;
 use App\Models\Purchase;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -37,19 +39,30 @@ class PurchaseController extends Controller
             $data = [];
             foreach ($products as $product) {
 
-                if (isset($data[$product->id])) {
-                    $data[$product->id]['quantity']++;
-                } else {
-                    $data[$product->id]['quantity'] = 1;
-                    $data[$product->id]['price'] = $product->price;
-                }
+                $data[$product->id]['quantity'] = $product->quantity;
+                $data[$product->id]['price'] = $product->price;
             }
 
 
             $purchase->products()->attach($data);
 
+            $parcels = json_decode($request->parcels);
 
-            return $purchase->fresh('products');;
+            $data = [];
+            foreach ($parcels as $parcel) {
+
+                $date = DateTime::createFromFormat('d/m/Y', $parcel->date);
+                $data[] = new Parcel([
+                    'purchase_id' => $purchase->id,
+                    'date' => $date->format('Y-m-d'),
+                    'price' => $parcel->value,
+                    'payment_method' => $parcel->payment,
+                ]);
+            }
+
+            $purchase->parcels()->saveMany($data);
+
+            return $purchase;
         });
 
         return redirect()->route('purchase.show', $purchase);
@@ -58,7 +71,7 @@ class PurchaseController extends Controller
     public function show(Purchase $purchase)
     {
         return view('purchase.show', [
-            'purchase' => $purchase->fresh('products', 'client'),
+            'purchase' => $purchase->fresh('products', 'client', 'parcels'),
         ]);
     }
 }

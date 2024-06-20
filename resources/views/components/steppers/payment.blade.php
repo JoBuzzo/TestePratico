@@ -66,8 +66,13 @@
                 </thead>
                 <template x-for="(parcel, index) in listParcels" :key="index">
                     <tr class="h-10 text-center border border-gray-200 whitespace-nowrap">
-                        <td class="px-6 text-center" x-text="parcel.date"></td>
-                        <td class="px-6 text-center" x-text="parcel.value"></td>
+                        <td class="px-6 text-center" x-text="parcel.date">
+
+                        </td>
+                        <td class="px-6 text-center">
+                            <span class="text-sm font-bold">R$ </span>
+                            <input type="text" x-model="parcel.value" @keyup.enter="updateParcels($event, index)"  class="w-20 p-2 border-gray-200 rounded-md" >
+                        </td>
                         <td class="px-6 text-center" x-text="parcel.payment"></td>
                     </tr>
                 </template>

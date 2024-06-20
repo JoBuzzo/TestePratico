@@ -15,7 +15,7 @@
                 <ul class="flex flex-col w-full gap-1 overflow-y-scroll max-h-44">
                     <template x-for="client in filteredClients()" :key="client.id">
                         <li class="w-full">
-                            <div @click="selectedClient = client; console.log(selectedClient)" type="button"
+                            <div @click="selectedClient = client" type="button"
                                 :class="{
                                     'bg-gray-200': selectedClient.id === client.id,
                                 }"
@@ -33,7 +33,7 @@
         <div class="relative flex flex-col">
             <span>Produtos</span>
             <div class="flex cursor-pointer" @click="dropdownProducts = !dropdownProducts">
-                <span x-text="'Total: R$ '+calculeTotalPrice()"
+                <span x-text="'Total: R$ '+ totalPrice"
                     class="border-l border-y p-2.5 rounded-l-md w-36"></span>
                 <span  class="border p-2.5 rounded-r-md">
                     Selecione os produtos
@@ -71,7 +71,7 @@
                 <div class="flex gap-2">
                     <input type="number" x-model="selectedProduct.quantity" class="w-16 p-2 border-gray-200 rounded-md"
                         min="1">
-                    <button @click="removeProduct(product)" type="button"
+                    <button @click="removeProduct(selectedProduct)" type="button"
                         class="p-2 font-bold text-white border rounded-md bg-rose-500">
                         Remover
                     </button>

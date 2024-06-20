@@ -11,8 +11,8 @@
                 <div class="flex flex-col gap-10 p-6 text-gray-900">
 
                     <div class="flex justify-between">
-                        <span class="text-lg font-semibold">{{ $purchase->client->name }}</span>
-                        <span class="font-semibold">{{ $purchase->client->cpf }}</span>
+                        <span class="text-lg font-semibold">Cliente: {{ $purchase->client->name }}</span>
+                        <span class="font-semibold">CPF: {{ $purchase->client->cpf }}</span>
                     </div>
 
                     <div class="flex flex-col w-full">
@@ -52,46 +52,24 @@
 
                     </div>
 
-
-
-                    <div class="flex items-start justify-between" x-data="app">
-                        <form class="w-full" @submit.prevent="createParcels()">
-                            <div class="flex flex-col gap-10 ">
-                                <div class="flex flex-col">
-                                    <label for="parcels">Quantidade de parcelas</label>
-                                    <input type="number" id="parcels" class="p-2 border-gray-200 rounded-md w-44"
-                                        min="1" x-model="parcels">
-
-                                    <label for="valueParcel">Valor da parcela</label>
-                                    <input type="text" id="valueParcel" class="p-2 border-gray-200 rounded-md w-44"
-                                        disabled :value="getParcelPrice()">
-                                </div>
-
-                                <div>
-                                    <x-primary-button type="submit">Parcelar</x-primary-button>
-                                </div>
-                            </div>
-
-
-                        </form>
-
+                    <div class="flex flex-col w-full">
+                        <h1 class="text-lg font-semibold">Parcelas</h1>
                         <table class="w-full">
                             <thead>
                                 <tr class="text-sm font-bold border border-gray-200 whitespace-nowrap">
-                                    <th class="py-2 ">Data</th>
+                                    <th class="py-2 ">Data de vencimento</th>
                                     <th class="py-2 ">Valor</th>
                                     <th class="py-2 ">Forma de pagamento</th>
                                 </tr>
                             </thead>
-                                <template x-for="(parcel, index) in listParcels" :key="index">
-                                    <tr class="h-10 text-center border border-gray-200 whitespace-nowrap">
-                                        <td class="px-6 text-center" x-text="parcel.date"></td>
-                                        <td class="px-6 text-center" x-text="parcel.value"></td>
-                                        <td class="px-6 text-center" x-text="parcel.payment"></td>
-                                    </tr>
-                                </template>
+                            @foreach ($purchase->parcels as $parcel)
+                                <tr class="h-10 text-center border border-gray-200 whitespace-nowrap">
+                                    <td class="px-6 text-center">{{ date('d/m/Y', strtotime($parcel->date)) }}</td>
+                                    <td class="px-6 text-center">R$ {{ $parcel->price }}</td>
+                                    <td class="px-6 text-center">{{ $parcel->payment_method }}</td>
+                                </tr>
+                            @endforeach
                         </table>
-
                     </div>
 
                 </div>
@@ -137,7 +115,8 @@
             },
 
             formatDate(date) {
-                return (date.getDate()).toString().padStart(2, '0') + '/' + (date.getMonth() + 1).toString().padStart(2, '0') + '/' + date.getFullYear();
+                return (date.getDate()).toString().padStart(2, '0') + '/' + (date.getMonth() + 1)
+                    .toString().padStart(2, '0') + '/' + date.getFullYear();
             },
         }))
     })

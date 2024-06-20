@@ -10,23 +10,38 @@
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="w-full p-6 text-gray-900 ">
                     <div>
-                        <div class="flex items-center mb-10 text-xl font-bold">
-                            <button @click="stepper = 1" class="p-2 border rounded-l-md w-36"
-                                :class="{ 'bg-gray-200': stepper === 1 }">
-                                Itens
-                            </button>
+                        <div class="flex justify-between items-center  mb-10 ">
+                            <div class="flex items-centertext-xl font-bold">
+                                <button @click="stepper = 1" class="p-2 border rounded-l-md w-36"
+                                    :class="{ 'bg-gray-200': stepper === 1 }">
+                                    Itens
+                                </button>
 
-                            <button @click="stepper = 2" class="p-2 border w-36 rounded-r-md"
-                                :class="{ 'bg-gray-200': stepper === 2 }">
-                                Pagamento
-                            </button>
+                                <button @click="stepper = 2" class="p-2 border w-36 rounded-r-md"
+                                    :class="{ 'bg-gray-200': stepper === 2 }">
+                                    Pagamento
+                                </button>
+                            </div>
+
+                            <form action="{{ route('purchase.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="client_id" :value="selectedClient.id">
+                                <input type="hidden" name="products" :value="JSON.stringify(selectedProducts)">
+                                <input type="hidden" name="parcels" :value="JSON.stringify(listParcels)">
+                                <input type="hidden" name="total_price" :value="calculeTotalPrice()">
+                                <template x-if="selectedClient.id !== null && selectedProducts.length > 0 && listParcels.length > 0">
+                                    <x-primary-button>Salvar</x-primary-button>
+                                </template>
+                            </form>
                         </div>
 
-                        <div x-show="stepper === 1" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-1/2">
+                        <div x-show="stepper === 1" x-transition:enter="transition ease-out duration-300"
+                            x-transition:enter-start="opacity-0 translate-x-1/2">
                             <x-steppers.create-purchase />
                         </div>
 
-                        <div x-show="stepper === 2" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-x-1/2">
+                        <div x-show="stepper === 2" x-transition:enter="transition ease-out duration-300"
+                            x-transition:enter-start="opacity-0 -translate-x-1/2">
                             <x-steppers.payment />
                         </div>
                     </div>
@@ -130,6 +145,46 @@
                     return (date.getDate()).toString().padStart(2, '0') + '/' + (date.getMonth() + 1)
                         .toString().padStart(2, '0') + '/' + date.getFullYear();
                 },
+                updateParcels(event, index) {
+                    let newValue = parseFloat(event.target.value);
+
+                    if (isNaN(newValue) || newValue < 0 || newValue > this.totalPrice) {
+                        alert('Por favor, insira um número válido');
+                        return;
+                    }
+
+                    this.listParcels[index].value = newValue;
+
+
+                    let totalRemaining = this.totalPrice - newValue;
+
+
+                    let parcelsRemaining = this.listParcels.length - 1;
+
+                    if (parcelsRemaining === 1) {
+                        this.listParcels[this.listParcels.length - 1].value = parseFloat(totalRemaining
+                            .toFixed(2));
+                    } else {
+
+                        let newValueParcels = totalRemaining / parcelsRemaining;
+
+
+                        for (let i = 0; i < this.listParcels.length; i++) {
+                            if (i !== index && i !== this.listParcels.length - 1) {
+                                this.listParcels[i].value = parseFloat(newValueParcels.toFixed(2));
+                            }
+                        }
+
+                        let sumOfValues = this.listParcels.reduce((sum, parcel, i) => {
+                            return i === this.listParcels.length - 1 ? sum : sum + parcel.value;
+                        }, 0);
+
+                        let lastParcelValue = this.totalPrice - sumOfValues;
+
+                        this.listParcels[this.listParcels.length - 1].value = parseFloat(lastParcelValue
+                            .toFixed(2));
+                    }
+                }
             }))
         })
     </script>
