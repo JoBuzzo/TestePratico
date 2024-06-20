@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/compra/cadastrar', [PurchaseController::class, 'store'])->name('purchase.store');
 
     Route::get('/compra/{purchase}', [PurchaseController::class, 'show'])->name('purchase.show');
+
+    Route::get('produto/cadastrar', [ProductController::class, 'create'])->name('product.create');
+    Route::post('produto/cadastrar', [ProductController::class, 'store'])->name('product.store');
 });
 
 

@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('purchase.create')" :active="request()->routeIs('purchase.create')">
                         Registrar Compra
                     </x-nav-link>
+                    <x-nav-link :href="route('product.create')" :active="request()->routeIs('product.create')">
+                        Registrar Produto
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -75,6 +78,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('purchase.create')" :active="request()->routeIs('purchase.create')">
                 Registrar Compra
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('product.create')" :active="request()->routeIs('product.create')">
+                Registrar Produto
             </x-responsive-nav-link>
         </div>
 

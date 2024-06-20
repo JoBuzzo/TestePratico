@@ -26,7 +26,7 @@
 
                         <table>
                             <tr class="text-sm font-bold border border-gray-200 whitespace-nowrap">
-                                <th class="py-2 ">Cliente</th>
+                                <th class="py-2 ">Nome do Produto</th>
                                 <th class="px-3 py-2">Preço/unidade
                                     ({{ date('d/m/Y', strtotime($purchase->created_at)) }})</th>
                                 <th class="px-3 py-2">Quantidade</th>
