@@ -22,11 +22,11 @@
                             </button>
                         </div>
 
-                        <div x-show="stepper === 1">
+                        <div x-show="stepper === 1" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-1/2">
                             <x-steppers.create-purchase />
                         </div>
 
-                        <div x-show="stepper === 2">
+                        <div x-show="stepper === 2" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-x-1/2">
                             <x-steppers.payment />
                         </div>
                     </div>
@@ -74,8 +74,7 @@
                 },
                 addProduct(product) {
 
-                    console.log(product);
-                    if (!this.selectedProducts.some(p => p.id === product.id)) {
+                    if (this.selectedProducts.filter(p => p.id === product.id).length === 0) {
                         product.quantity = 1;
                         this.selectedProducts.push(product);
                     }

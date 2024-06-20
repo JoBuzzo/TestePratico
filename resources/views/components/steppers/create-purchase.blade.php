@@ -1,4 +1,4 @@
-<form @submit.prevent="createProducts()" method="POST" class="flex flex-col w-full gap-10">
+<form @submit.prevent="createProducts()" method="POST" class="flex flex-col w-full gap-10 justify-between">
 
     <div class="flex items-center w-full gap-10">
         <div class="relative flex flex-col w-64">
@@ -15,7 +15,7 @@
                 <ul class="flex flex-col w-full gap-1 overflow-y-scroll max-h-44">
                     <template x-for="client in filteredClients()" :key="client.id">
                         <li class="w-full">
-                            <div @click="selectedClient = client" type="button"
+                            <div @click="selectedClient = client; console.log(selectedClient)" type="button"
                                 :class="{
                                     'bg-gray-200': selectedClient.id === client.id,
                                 }"
@@ -45,9 +45,9 @@
                 <input type="text" class="w-full p-2 mb-1 border-gray-200 rounded-md" x-model="searchProduct"
                     placeholder="Buscar produtos">
                 <ul class="flex flex-col w-full gap-1 overflow-y-scroll max-h-44">
-                    <template x-for="(product, index) in filteredProducts()" :key="index">
+                    <template x-for="product in filteredProducts()" :key="product.id">
                         <li class="w-full">
-                            <button @click="addProduct(product, index)" type="button"
+                            <button @click="addProduct(product)" type="button"
                                 :class="{
                                     'bg-gray-200': isSelected(product),
                                 }"
@@ -62,14 +62,14 @@
         </div>
     </div>
     <div class="w-1/2 overflow-y-scroll max-h-64">
-        <template x-for="(product, index) in selectedProducts" :key="index">
+        <template x-for="(selectedProduct, index) in selectedProducts" :key="index">
             <div class="flex items-center justify-between w-full p-2 border border-gray-200 rounded-md">
                 <div class="flex justify-between w-full px-5">
-                    <span x-text="product.name"></span>
-                    <span x-text="'R$ ' + product.price"></span>
+                    <span x-text="selectedProduct.name"></span>
+                    <span x-text="'R$ ' + selectedProduct.price"></span>
                 </div>
                 <div class="flex gap-2">
-                    <input type="number" x-model="products[index].quantity" class="w-16 p-2 border-gray-200 rounded-md"
+                    <input type="number" x-model="selectedProduct.quantity" class="w-16 p-2 border-gray-200 rounded-md"
                         min="1">
                     <button @click="removeProduct(product)" type="button"
                         class="p-2 font-bold text-white border rounded-md bg-rose-500">
