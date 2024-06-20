@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
+
+    public function index()
+    {
+        return view('purchase.index', [
+            'purchases' => Purchase::withCount('parcels', 'products')->with('client')->get(),
+        ]);
+    }
+
     public function create()
     {
         $clients = Client::all();
