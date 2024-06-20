@@ -69,9 +69,6 @@
                                 </div>
                             </div>
 
-                            <input type="date" name="date" id="date" class=" p-2 rounded-md border-gray-200">
-
-
                             <input type="hidden" name="client_id" :value="selectedClient.id">
                             <input type="hidden" name="total_price" :value="totalPrice">
                             <input type="hidden" name="products" :value="JSON.stringify(selectedProducts.map(p => p))">

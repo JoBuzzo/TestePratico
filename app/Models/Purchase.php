@@ -12,7 +12,6 @@ class Purchase extends Model
     use HasFactory;
 
     protected $fillable = [
-        'date',
         'total',
         'client_id',
     ];
@@ -34,6 +33,7 @@ class Purchase extends Model
      */
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'items', 'purchase_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'items', 'purchase_id', 'product_id')
+            ->withPivot('quantity', 'price');
     }
 }

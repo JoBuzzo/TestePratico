@@ -26,7 +26,6 @@ class PurchaseController extends Controller
             $purchase = Purchase::create([
                 'client_id' => $request->client_id,
                 'total' => $request->total_price,
-                'date' => $request->date,
             ]);
 
             $products = json_decode($request->products);
@@ -55,6 +54,8 @@ class PurchaseController extends Controller
 
     public function show(Purchase $purchase)
     {
-        return view('purchase.show', compact('purchase'));
+        return view('purchase.show', [
+            'purchase' => $purchase->fresh('products', 'client'),
+        ]);
     }
 }
