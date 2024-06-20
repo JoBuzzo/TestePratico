@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
@@ -36,6 +37,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('produto/cadastrar', [ProductController::class, 'create'])->name('product.create');
     Route::post('produto/cadastrar', [ProductController::class, 'store'])->name('product.store');
+
+    Route::get('cliente/cadastrar', [ClientController::class, 'create'])->name('client.create');
+    Route::post('cliente/cadastrar', [ClientController::class, 'store'])->name('client.store');
 });
 
 
