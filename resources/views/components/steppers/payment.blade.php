@@ -17,7 +17,7 @@
 
             <table>
                 <tr class="text-sm font-bold border border-gray-200 whitespace-nowrap">
-                    <th class="py-2 ">Cliente</th>
+                    <th class="py-2 ">Produto</th>
                     <th class="px-3 py-2">Preço/unidade</th>
                     <th class="px-3 py-2">Quantidade</th>
                     <th class="px-3 py-2">SubTotal</th>
@@ -27,7 +27,7 @@
                         <td class="py-2" x-text="product.name"></td>
                         <td class="px-6 py-2" x-text="'R$ ' + product.price"></td>
                         <td class="px-6 py-2" x-text="product.quantity"></td>
-                        <td class="px-6 py-2" x-text="'R$ ' + product.price * product.quantity"></td>
+                        <td class="px-6 py-2" x-text="'R$ ' + (product.price * product.quantity).toFixed(2)"></td>
                     </tr>
                 </template>
             </table>
@@ -55,28 +55,37 @@
                 </div>
 
             </form>
+            <div class="flex flex-col w-full">
+                <div class="flex flex-col w-full">
+                    <h1 class="text-lg font-semibold">Parcelas</h1>
+                    <div class="text-xs">
+                        <p>Você pode mudar o valor da parcela de entrada.
+                            Precione Enter para confirmar a edição da parcela.</p>
+                    </div>
+                </div>
+                <table class="w-full">
+                    <thead>
+                        <tr class="text-sm font-bold border border-gray-200 whitespace-nowrap">
+                            <th class="py-2 ">Data</th>
+                            <th class="py-2 ">Valor</th>
+                            <th class="py-2 ">Forma de pagamento</th>
+                        </tr>
+                    </thead>
+                    <template x-for="(parcel, index) in listParcels" :key="index">
+                        <tr class="h-10 text-center border border-gray-200 whitespace-nowrap">
+                            <td class="px-6 text-center" x-text="parcel.date">
 
-            <table class="w-full mt-6">
-                <thead>
-                    <tr class="text-sm font-bold border border-gray-200 whitespace-nowrap">
-                        <th class="py-2 ">Data</th>
-                        <th class="py-2 ">Valor</th>
-                        <th class="py-2 ">Forma de pagamento</th>
-                    </tr>
-                </thead>
-                <template x-for="(parcel, index) in listParcels" :key="index">
-                    <tr class="h-10 text-center border border-gray-200 whitespace-nowrap">
-                        <td class="px-6 text-center" x-text="parcel.date">
-
-                        </td>
-                        <td class="px-6 text-center">
-                            <span class="text-sm font-bold">R$ </span>
-                            <input type="text" x-model="parcel.value" @keyup.enter="updateParcels($event, index)"  class="w-20 p-2 border-gray-200 rounded-md" >
-                        </td>
-                        <td class="px-6 text-center" x-text="parcel.payment"></td>
-                    </tr>
-                </template>
-            </table>
+                            </td>
+                            <td class="px-6 text-center">
+                                <span class="text-sm font-bold">R$ </span>
+                                <input type="text" x-model="parcel.value" @keyup.enter="updateParcels($event, index)"
+                                    class="w-20 p-2 border-gray-200 rounded-md" :disabled="index == !0">
+                            </td>
+                            <td class="px-6 text-center" x-text="parcel.payment"></td>
+                        </tr>
+                    </template>
+                </table>
+            </div>
         </div>
     </div>
 

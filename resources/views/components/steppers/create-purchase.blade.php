@@ -1,4 +1,4 @@
-<form @submit.prevent="createProducts()" method="POST" class="flex flex-col w-full gap-10 justify-between">
+<form @submit.prevent="createProducts()" method="POST" class="flex flex-col justify-between w-full gap-10">
 
     <div class="flex items-center w-full gap-10">
         <div class="relative flex flex-col w-64">
@@ -34,7 +34,7 @@
             <span>Produtos</span>
             <div class="flex cursor-pointer" @click="dropdownProducts = !dropdownProducts">
                 <span x-text="'Total: R$ '+ totalPrice"
-                    class="border-l border-y p-2.5 rounded-l-md w-36"></span>
+                    class="border-l border-y p-2.5 rounded-l-md w-36 whitespace-nowrap"></span>
                 <span  class="border p-2.5 rounded-r-md">
                     Selecione os produtos
                 </span>
