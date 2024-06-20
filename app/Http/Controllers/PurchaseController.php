@@ -16,7 +16,10 @@ class PurchaseController extends Controller
 
         $products = Product::all();
 
-        return view("purchase.create", compact("clients", 'products'));
+        return view("purchase.create", [
+            'clients' => $clients,
+            'products' => $products,
+        ]);
     }
 
     public function store(Request $request)

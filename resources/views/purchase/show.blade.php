@@ -108,7 +108,6 @@
             listParcels: [],
 
             createParcels() {
-
                 this.listParcels = [];
 
                 let parcelValue = this.getParcelPrice();
