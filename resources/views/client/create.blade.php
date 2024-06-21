@@ -5,11 +5,11 @@
         </h2>
     </x-slot>
 
-    <div class="py-12" x-data="app">
+    <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="w-full p-6 text-gray-900 ">
-                    <form action="{{ route('client.store') }}" method="POST" class="w-1/3 flex flex-col gap-2">
+                    <form action="{{ route('client.store') }}" method="POST" class="flex flex-col w-1/3 gap-2">
                         @csrf
                         <div class="flex flex-col">
                             <label for="name">Nome do Cliente</label>
