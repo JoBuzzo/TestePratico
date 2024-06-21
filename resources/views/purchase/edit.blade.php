@@ -142,6 +142,9 @@
                     });
                     this.canSubmit = true;
                 },
+                refreshParcels() {
+                    this.listParcels = @js($listParcels);
+                },
                 getParcelPrice() {
                     return parseFloat((this.totalPrice / this.parcels).toFixed(2));
                 },

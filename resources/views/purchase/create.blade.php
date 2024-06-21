@@ -147,6 +147,10 @@
                     this.canSubmit = true;
 
                 },
+                refreshParcels() {
+                    this.parcels = 1;
+                    this.createParcels();
+                },
                 getParcelPrice() {
                     return parseFloat((this.totalPrice / this.parcels).toFixed(2));
                 },

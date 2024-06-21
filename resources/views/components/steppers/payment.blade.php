@@ -35,7 +35,8 @@
         </div>
         <div class="flex items-start justify-between" x-show="totalPrice > 0" x-cloak>
             <form class="w-full" @submit.prevent="createParcels()">
-                <div class="flex flex-col gap-10 ">
+                <div class="flex flex-col gap-2 ">
+                    <h1 class="mb-2 text-lg font-semibold">Parcelar</h1>
                     <div class="flex gap-2">
                         <div class="flex flex-col">
                             <label for="parcels">Parcelas</label>
@@ -47,10 +48,24 @@
                             <input type="text" id="valueParcel" class="w-20 p-2 border-gray-200 rounded-md" disabled
                                 :value="getParcelPrice()">
                         </div>
+                        <div class="flex flex-col">
+                            <span>Resetar</span>
+                            <button @click="refreshParcels()"
+                                class="flex items-center justify-center p-2 text-sm font-semibold text-gray-700 border border-gray-200 rounded-md hover:bg-gray-100 size-11">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refresh-ccw">
+                                    <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                                    <path d="M3 3v5h5" />
+                                    <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+                                    <path d="M16 16h5v5" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     <div>
-                        <x-primary-button type="submit">Parcelar</x-primary-button>
+                        <x-primary-button type="submit">Gerar</x-primary-button>
                     </div>
                 </div>
 
