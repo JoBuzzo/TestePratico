@@ -69,8 +69,7 @@
                     <span x-text="'R$ ' + selectedProduct.price"></span>
                 </div>
                 <div class="flex gap-2">
-                    <input type="number" x-model="selectedProduct.quantity" class="w-16 p-2 border-gray-200 rounded-md"
-                        min="1">
+                    <input type="number" @input="isModifiedQuantity()" x-model="selectedProduct.quantity" class="w-16 p-2 border-gray-200 rounded-md" min="1">
                     <button @click="removeProduct(selectedProduct)" type="button"
                         class="p-2 font-bold text-white border rounded-md bg-rose-500">
                         Remover

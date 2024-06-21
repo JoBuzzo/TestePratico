@@ -30,8 +30,7 @@
                                 <input type="hidden" name="products" :value="JSON.stringify(selectedProducts)">
                                 <input type="hidden" name="parcels" :value="JSON.stringify(listParcels)">
                                 <input type="hidden" name="total_price" :value="calculeTotalPrice()">
-                                <template
-                                    x-if="selectedClient.id !== null && selectedProducts.length > 0 && listParcels.length > 0">
+                                <template x-if="canSubmit === true">
                                     <x-primary-button>Salvar</x-primary-button>
                                 </template>
                             </form>
@@ -66,6 +65,7 @@
                 searchProduct: '',
                 dropdownProducts: false,
                 dropdownClients: false,
+                canSubmit: false,
 
                 createProducts() {
                     if (this.selectedClient.id === null || this.selectedProducts.length === 0) {
@@ -90,10 +90,15 @@
                     if (this.selectedProducts.filter(p => p.id === product.id).length === 0) {
                         product.quantity = 1;
                         this.selectedProducts.push(product);
+                        this.canSubmit = false;
                     }
+                },
+                isModifiedQuantity() {
+                    this.canSubmit = false;
                 },
                 removeProduct(product, index) {
                     this.selectedProducts.splice(index, 1);
+                    this.canSubmit = false;
                 },
                 isSelected(product) {
                     return this.selectedProducts.some(p => p.id == product.id);
@@ -134,7 +139,7 @@
                         value: (this.totalPrice - (this.parcels - 1) * parcelValue).toFixed(2),
                         payment: 'Boleto',
                     });
-
+                    this.canSubmit = true;
                 },
                 getParcelPrice() {
                     return parseFloat((this.totalPrice / this.parcels).toFixed(2));

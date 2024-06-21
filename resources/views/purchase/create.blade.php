@@ -10,8 +10,8 @@
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="w-full p-6 text-gray-900 ">
                     <div>
-                        <div class="flex justify-between items-center  mb-10 ">
-                            <div class="flex items-centertext-xl font-bold">
+                        <div class="flex items-center justify-between mb-10 ">
+                            <div class="flex font-bold items-centertext-xl">
                                 <button @click="stepper = 1" class="p-2 border rounded-l-md w-36"
                                     :class="{ 'bg-gray-200': stepper === 1 }">
                                     Itens
@@ -29,7 +29,7 @@
                                 <input type="hidden" name="products" :value="JSON.stringify(selectedProducts)">
                                 <input type="hidden" name="parcels" :value="JSON.stringify(listParcels)">
                                 <input type="hidden" name="total_price" :value="calculeTotalPrice()">
-                                <template x-if="selectedClient.id !== null && selectedProducts.length > 0 && listParcels.length > 0">
+                                <template x-if="canSubmit === true">
                                     <x-primary-button>Salvar</x-primary-button>
                                 </template>
                             </form>
@@ -68,6 +68,7 @@
                 searchProduct: '',
                 dropdownProducts: false,
                 dropdownClients: false,
+                canSubmit: false,
 
                 createProducts() {
                     if (this.selectedClient.id === null || this.selectedProducts.length === 0) {
@@ -92,10 +93,16 @@
                     if (this.selectedProducts.filter(p => p.id === product.id).length === 0) {
                         product.quantity = 1;
                         this.selectedProducts.push(product);
+                        this.canSubmit = false;
                     }
+
+                },
+                isModifiedQuantity() {
+                    this.canSubmit = false;
                 },
                 removeProduct(product, index) {
                     this.selectedProducts.splice(index, 1);
+                    this.canSubmit = false;
                 },
                 isSelected(product) {
                     return this.selectedProducts.some(p => p.id == product.id);
@@ -136,6 +143,7 @@
                         value: (this.totalPrice - (this.parcels - 1) * parcelValue).toFixed(2),
                         payment: 'Boleto',
                     });
+                    this.canSubmit = true;
 
                 },
                 getParcelPrice() {
