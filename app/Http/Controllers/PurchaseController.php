@@ -114,9 +114,11 @@ class PurchaseController extends Controller
 
     public function update(Purchase $purchase, Request $request)
     {
+
         $purchase = DB::transaction(function () use ($purchase, $request) {
             $purchase->update([
                 'total' => $request->total_price,
+                'client_id' => $request->client_id,
             ]);
 
             $products = json_decode($request->products);
