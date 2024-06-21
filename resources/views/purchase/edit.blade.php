@@ -143,7 +143,9 @@
                     this.canSubmit = true;
                 },
                 refreshParcels() {
-                    this.listParcels = @js($listParcels);
+                    this.listParcels = @json($listParcels);
+                    this.parcels = this.listParcels.length;
+
                 },
                 getParcelPrice() {
                     return parseFloat((this.totalPrice / this.parcels).toFixed(2));
