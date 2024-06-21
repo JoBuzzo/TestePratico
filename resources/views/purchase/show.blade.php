@@ -10,17 +10,20 @@
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="flex flex-col gap-10 p-6 text-gray-900">
 
-                    <div class="flex items-center justify-between">
-                        <div class="flex justify-between w-full">
-                            <span class="text-lg font-semibold">Cliente: {{ $purchase->client->name }}</span>
-                            <span class="font-semibold">CPF: {{ $purchase->client->cpf }}</span>
+                    <div class="flex flex-col">
+                        <div class="flex items-center justify-between">
+                            <div class="flex justify-between w-full">
+                                <span class="text-lg font-semibold">Cliente: {{ $purchase->client->name }}</span>
+                                <span class="font-semibold">CPF: {{ $purchase->client->cpf }}</span>
+                            </div>
+                            <div class="flex items-center justify-end w-1/4 gap-2">
+                                <a href="{{ route('purchase.edit', $purchase) }}"
+                                    class="text-sm font-bold text-indigo-600 hover:text-indigo-900">Editar</a>
+                                <button x-on:click="$dispatch('open-modal', 'delete-purchase')"
+                                    class="text-sm font-bold text-rose-500 hover:text-rose-700">Excluir</button>
+                            </div>
                         </div>
-                        <div class="flex items-center justify-end w-1/4 gap-2">
-                            <a href="{{ route('purchase.edit', $purchase) }}"
-                                class="text-sm font-bold text-indigo-600 hover:text-indigo-900">Editar</a>
-                            <button x-on:click="$dispatch('open-modal', 'delete-purchase')"
-                                class="text-sm font-bold text-rose-500 hover:text-rose-700">Excluir</button>
-                        </div>
+                        <span class="text-lg font-semibold">Venderdor: {{ $purchase->user->name }}</span>
                     </div>
 
                     <div class="flex flex-col w-full">

@@ -10,12 +10,17 @@
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
 
                 <div class="p-6 text-gray-900">
-                    <div class="flex gap-2">
+                    <div class="flex items-center justify-between">
+                        <div class="flex w-1/2 gap-2">
+                            <input type="text" class="w-full p-2 mb-1 border-gray-200 rounded-md"
+                                x-model="searchClient" placeholder="Filtrar por cliente">
+                            <input type="text" class="w-full p-2 mb-1 border-gray-200 rounded-md"
+                                x-model="searchUser" placeholder="Filtrar por vendedor">
+                        </div>
 
-                        <input type="text" class="w-full p-2 mb-1 border-gray-200 rounded-md" x-model="searchClient"
-                            placeholder="Filtrar por cliente">
-                        <input type="text" class="w-full p-2 mb-1 border-gray-200 rounded-md" x-model="searchUser"
-                            placeholder="Filtrar por vendedor">
+                        <a href="{{ route('purchase.create') }}" class="text-indigo-600 hover:text-indigo-900">
+                            Nova Compra
+                        </a>
                     </div>
 
 
@@ -105,16 +110,16 @@
                     orderTotal: false,
                     resetOrders(order) {
 
-                        if(this.orderTotal === true && order === 'total'){
+                        if (this.orderTotal === true && order === 'total') {
                             this.orderProduct = false
                             this.orderParcel = false
 
-                        }else if(this.orderProduct === true && order === 'product'){
+                        } else if (this.orderProduct === true && order === 'product') {
 
                             this.orderParcel = false
                             this.orderTotal = false
 
-                        }else if(this.orderParcel === true && order === 'parcel'){
+                        } else if (this.orderParcel === true && order === 'parcel') {
 
                             this.orderTotal = false
                             this.orderProduct = false
