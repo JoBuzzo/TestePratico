@@ -17,8 +17,12 @@
                                 <span class="font-semibold">CPF: {{ $purchase->client->cpf }}</span>
                             </div>
                             <div class="flex items-center justify-end w-1/4 gap-2">
+                                <a href="{{ route('pdf', $purchase) }}" target="_BLANK"
+                                    class="text-sm font-bold text-black hover:text-gray-500">PDF</a>
+
                                 <a href="{{ route('purchase.edit', $purchase) }}"
                                     class="text-sm font-bold text-indigo-600 hover:text-indigo-900">Editar</a>
+
                                 <button x-on:click="$dispatch('open-modal', 'delete-purchase')"
                                     class="text-sm font-bold text-rose-500 hover:text-rose-700">Excluir</button>
                             </div>

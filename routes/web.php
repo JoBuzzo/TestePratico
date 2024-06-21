@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
@@ -43,6 +44,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('cliente/cadastrar', [ClientController::class, 'create'])->name('client.create');
     Route::post('cliente/cadastrar', [ClientController::class, 'store'])->name('client.store');
+
+    Route::get('pdf/{purchase}', PDFController::class)->name('pdf');
 });
 
 
