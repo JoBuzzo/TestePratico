@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/compra/cadastrar', [PurchaseController::class, 'store'])->name('purchase.store');
     Route::get('compra/{purchase}/editar', [PurchaseController::class, 'edit'])->name('purchase.edit');
     Route::put('compra/{purchase}/editar', [PurchaseController::class, 'update'])->name('purchase.update');
+    Route::delete('compra/{purchase}/deletar', [PurchaseController::class, 'delete'])->name('purchase.delete');
 
     Route::get('/compra/{purchase}', [PurchaseController::class, 'show'])->name('purchase.show');
 

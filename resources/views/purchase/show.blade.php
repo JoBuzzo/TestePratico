@@ -5,14 +5,22 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-12" x-data="">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="flex flex-col gap-10 p-6 text-gray-900">
 
-                    <div class="flex justify-between">
-                        <span class="text-lg font-semibold">Cliente: {{ $purchase->client->name }}</span>
-                        <span class="font-semibold">CPF: {{ $purchase->client->cpf }}</span>
+                    <div class="flex items-center justify-between">
+                        <div class="flex justify-between w-full">
+                            <span class="text-lg font-semibold">Cliente: {{ $purchase->client->name }}</span>
+                            <span class="font-semibold">CPF: {{ $purchase->client->cpf }}</span>
+                        </div>
+                        <div class="flex items-center justify-end w-1/4 gap-2">
+                            <a href="{{ route('purchase.edit', $purchase) }}"
+                                class="text-sm font-bold text-indigo-600 hover:text-indigo-900">Editar</a>
+                            <button x-on:click="$dispatch('open-modal', 'delete-purchase')"
+                                class="text-sm font-bold text-rose-500 hover:text-rose-700">Excluir</button>
+                        </div>
                     </div>
 
                     <div class="flex flex-col w-full">
@@ -75,5 +83,26 @@
                 </div>
             </div>
         </div>
+
+        <div>
+            <x-modal name="delete-purchase">
+                <div class="flex flex-col gap-4 p-6">
+                    <h1 class="text-lg font-semibold">Excluir compra</h1>
+                    <div>
+                        <p>Tem certeza que deseja excluir a compra?</p>
+                    </div>
+                    <form method="POST" action="{{ route('purchase.delete', $purchase) }}" class="flex items-center justify-end w-full gap-4">
+                        @csrf
+                        @method('delete')
+                        <button class="text-sm font-bold text-indigo-600 hover:text-indigo-900"
+                            x-on:click="$dispatch('close-modal', 'delete-purchase')" type="button">Cancelar</button>
+                        <button class="text-sm font-bold text-rose-500 hover:text-rose-700" type="submit">Excluir</button>
+                    </form>
+                </div>
+            </x-modal>
+        </div>
+
+
+
     </div>
 </x-app-layout>

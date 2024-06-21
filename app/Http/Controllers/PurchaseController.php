@@ -158,4 +158,15 @@ class PurchaseController extends Controller
 
         return redirect()->route('purchase.show', $purchase);
     }
+
+    public function delete(Purchase $purchase)
+    {
+        $purchase->products()->detach();
+
+        $purchase->parcels()->delete();
+
+        $purchase->delete();
+
+        return redirect()->route('dashboard');
+    }
 }
