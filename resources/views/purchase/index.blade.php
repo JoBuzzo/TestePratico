@@ -1,42 +1,88 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+    <div class="py-12" x-data="app">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+
                 <div class="p-6 text-gray-900">
+                    <div class="flex gap-2">
+
+                        <input type="text" class="w-full p-2 mb-1 border-gray-200 rounded-md" x-model="searchClient"
+                            placeholder="Filtrar por cliente">
+                        <input type="text" class="w-full p-2 mb-1 border-gray-200 rounded-md" x-model="searchUser"
+                            placeholder="Filtrar por vendedor">
+                    </div>
+
+
                     @if (count($purchases) > 0)
                         <table class="w-full text-center border">
                             <thead>
                                 <tr>
                                     <th class="px-6 py-3">#</th>
                                     <th class="px-6 py-3">Cliente</th>
-                                    <th class="px-6 py-3">Produtos</th>
-                                    <th class="px-6 py-3">Parcelas</th>
-                                    <th class="px-6 py-3">Total</th>
+                                    <th class="px-6 py-3">vendedor</th>
+                                    <th class="px-6 py-3">
+                                        <div class="flex items-center justify-end gap-2 cursor-pointer select-none"
+                                            @click="orderProduct = !orderProduct; resetOrders('product')">
+                                            Produtos
+                                            <div x-show="orderProduct">
+                                                <x-icon-filter-up />
+                                            </div>
+                                            <div x-show="!orderProduct">
+                                                <x-icon-filter-down />
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="px-6 py-3">
+                                        <div class="flex items-center justify-end gap-2 cursor-pointer select-none"
+                                            @click="orderParcel = !orderParcel; resetOrders('parcel')">
+                                            Parcelas
+                                            <div x-show="orderParcel">
+                                                <x-icon-filter-up />
+                                            </div>
+                                            <div x-show="!orderParcel">
+                                                <x-icon-filter-down />
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="px-6 py-3">
+                                        <div class="flex items-center justify-end gap-2 cursor-pointer select-none"
+                                            @click="orderTotal = !orderTotal; resetOrders('total')">
+                                            Total
+                                            <div x-show="orderTotal">
+                                                <x-icon-filter-up />
+                                            </div>
+                                            <div x-show="!orderTotal">
+                                                <x-icon-filter-down />
+                                            </div>
+                                        </div>
+                                    </th>
                                     <th class="px-6 py-3"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($purchases as $purchase)
+                                <template x-for="purchase in filterPurchases()">
                                     <tr class="border border-gray-200">
-                                        <td class="px-6 py-3">{{ $purchase->id }}</td>
-                                        <td class="px-6 py-3">{{ $purchase->client->name }}</td>
-                                        <td class="px-6 py-3">{{ $purchase->products_count }}</td>
-                                        <td class="px-6 py-3">{{ $purchase->parcels_count }}</td>
-                                        <td class="px-6 py-3">R$ {{ $purchase->total }}</td>
+                                        <td class="px-6 py-3" x-text="purchase.id"></td>
+                                        <td class="px-6 py-3" x-text="purchase.client.name"></td>
+                                        <td class="px-6 py-3" x-text="purchase.user.name"></td>
+                                        <td class="px-6 py-3" x-text="purchase.products_count"></td>
+                                        <td class="px-6 py-3" x-text="purchase.parcels_count"></td>
+                                        <td class="px-6 py-3" x-text="purchase.total"></td>
                                         <td class="px-6 py-3">
-                                            <a href="{{ route('purchase.show', $purchase) }}"
+                                            <a :href="'compra/' + purchase.id"
                                                 class="text-indigo-600 hover:text-indigo-900">
                                                 Visualizar
                                             </a>
                                         </td>
                                     </tr>
-                                @endforeach
+                                </template>
+
                             </tbody>
                         </table>
                     @else
@@ -47,5 +93,61 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('app', () => ({
+                    purchases: @json($purchases),
+                    searchClient: '',
+                    searchUser: '',
+                    orderProduct: false,
+                    orderParcel: false,
+                    orderTotal: false,
+                    resetOrders(order) {
+
+                        if(this.orderTotal === true && order === 'total'){
+                            this.orderProduct = false
+                            this.orderParcel = false
+
+                        }else if(this.orderProduct === true && order === 'product'){
+
+                            this.orderParcel = false
+                            this.orderTotal = false
+
+                        }else if(this.orderParcel === true && order === 'parcel'){
+
+                            this.orderTotal = false
+                            this.orderProduct = false
+                        }
+                    },
+                    filterPurchases() {
+
+                        products = this.purchases.filter(
+                            product => product.client.name.startsWith(this.searchClient)
+                        )
+
+                        products = products.filter(
+                            product => product.user.name.startsWith(this.searchUser)
+                        )
+
+                        products = products.sort((a, b) => {
+                            if (this.orderProduct) {
+                                return a.products_count - b.products_count
+                            }
+                            if (this.orderParcel) {
+                                return a.parcels_count - b.parcels_count
+                            }
+                            if (this.orderTotal) {
+                                return a.total - b.total
+                            }
+                        })
+
+                        return products
+                    }
+                }))
+            })
+        </script>
+
+
     </div>
 </x-app-layout>

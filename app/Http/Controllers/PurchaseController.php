@@ -16,7 +16,7 @@ class PurchaseController extends Controller
     public function index()
     {
         return view('purchase.index', [
-            'purchases' => Purchase::withCount('parcels', 'products')->with('client')->get(),
+            'purchases' => Purchase::withCount('parcels', 'products')->with('client', 'user')->get(),
         ]);
     }
 
