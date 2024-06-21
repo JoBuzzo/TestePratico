@@ -39,6 +39,7 @@ class PurchaseController extends Controller
             $purchase = Purchase::create([
                 'client_id' => $request->client_id,
                 'total' => $request->total_price,
+                'user_id' => auth()->user()->id,
             ]);
 
             $products = json_decode($request->products);
@@ -119,6 +120,7 @@ class PurchaseController extends Controller
             $purchase->update([
                 'total' => $request->total_price,
                 'client_id' => $request->client_id,
+                'user_id' => auth()->user()->id,
             ]);
 
             $products = json_decode($request->products);
