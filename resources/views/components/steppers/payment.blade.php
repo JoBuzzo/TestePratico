@@ -40,7 +40,7 @@
                         <div class="flex flex-col">
                             <label for="parcels">Parcelas</label>
                             <input type="number" id="parcels" class="w-20 p-2 border-gray-200 rounded-md"
-                                min="1" x-model="parcels">
+                                min="1" x-model="parcels" @input="canSubmit = false; listParcels = []">
                         </div>
                         <div class="flex flex-col">
                             <label for="valueParcel">Valor</label>
@@ -81,7 +81,14 @@
                                 <input type="text" x-model="parcel.value" @keyup.enter="updateParcels($event, index)"
                                     class="w-20 p-2 border-0 rounded-md" :disabled="index !== 0">
                             </td>
-                            <td class="px-6 text-center" x-text="parcel.payment"></td>
+                            <td class="px-6 text-center">
+                                <select x-model="parcel.payment" class="border-0 focus:ring-0">
+                                    <option>Cartão de crédito</option>
+                                    <option>Boleto</option>
+                                    <option>Cheque</option>
+                                    <option>Pix</option>
+                                </select>
+                            </td>
                         </tr>
                     </template>
                 </table>

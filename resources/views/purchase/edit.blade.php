@@ -17,7 +17,7 @@
                                     Itens
                                 </button>
 
-                                <button @click="stepper = 2" class="p-2 border w-36 rounded-r-md"
+                                <button @click="stepper = 2; createParcels()" class="p-2 border w-36 rounded-r-md"
                                     :class="{ 'bg-gray-200': stepper === 2 }">
                                     Pagamento
                                 </button>
@@ -65,7 +65,7 @@
                 searchProduct: '',
                 dropdownProducts: false,
                 dropdownClients: false,
-                canSubmit: false,
+                canSubmit: true,
 
                 createProducts() {
                     if (this.selectedClient.id === null || this.selectedProducts.length === 0) {
@@ -73,6 +73,7 @@
                         return;
                     }
                     this.stepper = 2;
+                    this.createParcels();
                 },
                 calculeTotalPrice() {
 
