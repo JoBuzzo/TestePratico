@@ -127,15 +127,15 @@
                     },
                     filterPurchases() {
 
-                        products = this.purchases.filter(
-                            product => product.client.name.startsWith(this.searchClient)
+                        purchases = this.purchases.filter(
+                            product => product.client.name.toLowerCase().startsWith(this.searchClient.toLowerCase())
                         )
 
-                        products = products.filter(
-                            product => product.user.name.startsWith(this.searchUser)
+                        purchases = purchases.filter(
+                            product => product.user.name.toLowerCase().startsWith(this.searchUser.toLowerCase())
                         )
 
-                        products = products.sort((a, b) => {
+                        purchases = purchases.sort((a, b) => {
                             if (this.orderProduct) {
                                 return a.products_count - b.products_count
                             }
@@ -147,7 +147,7 @@
                             }
                         })
 
-                        return products
+                        return purchases
                     }
                 }))
             })

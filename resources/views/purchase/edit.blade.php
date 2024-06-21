@@ -106,12 +106,12 @@
                 },
                 filteredClients() {
                     return this.clients.filter(
-                        client => client.name.startsWith(this.searchClient)
+                        client => client.name.toLowerCase().startsWith(this.searchClient.toLowerCase())
                     )
                 },
                 filteredProducts() {
                     return this.products.filter(
-                        product => product.name.startsWith(this.searchProduct)
+                        product => product.name.toLowerCase().startsWith(this.searchProduct.toLowerCase())
                     )
                 },
 
