@@ -88,8 +88,8 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 6. **Iniciar o servidor de desenvolvimento:**
    ```bash
    php artisan serve
-    ```
-7.  **se tiver o npm instalado rode também:**
+
+7. **se tiver o npm instalado rode também:**
     ```bash
    npm run build
 
